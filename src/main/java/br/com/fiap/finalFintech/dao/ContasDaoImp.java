@@ -74,7 +74,13 @@ public class ContasDaoImp implements ContasDao {
             stmt = conn.prepareStatement(sql);
             stmt.setFloat(1, conta.getSaldo());
             stmt.setDate(2, Date.valueOf(conta.getDt_criacao_conta()));
-            stmt.setDate(3, Date.valueOf(conta.getDt_encerramento_conta()));
+
+            if (conta.getDt_encerramento_conta() != null) {
+                stmt.setDate(3, Date.valueOf(conta.getDt_encerramento_conta()));
+            } else {
+                stmt.setNull(3, java.sql.Types.DATE);
+            }
+
             stmt.setInt(4, conta.getId_conta());
 
             stmt.executeUpdate();

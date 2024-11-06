@@ -82,7 +82,11 @@ public class ContaServlet extends HttpServlet {
             int id_conta = Integer.parseInt(req.getParameter("id_conta"));
             float saldo = Float.parseFloat(req.getParameter("saldo"));
             LocalDate dt_criacao_conta = LocalDate.parse(req.getParameter("dt_criacao_conta"));
-            LocalDate dt_encerramento_conta = LocalDate.parse(req.getParameter("dt_encerramento_conta"));
+
+            String dtEncerramentoParam = req.getParameter("dt_encerramento_conta");
+            LocalDate dt_encerramento_conta = (dtEncerramentoParam != null && !dtEncerramentoParam.isEmpty())
+                    ? LocalDate.parse(dtEncerramentoParam)
+                    : null;
 
             Conta conta = new Conta(id_conta,saldo, dt_criacao_conta, dt_encerramento_conta);
             conta.setId_conta(id_conta);
@@ -146,8 +150,8 @@ public class ContaServlet extends HttpServlet {
         int id_conta = Integer.parseInt(req.getParameter("id_conta"));
         Conta conta = dao.buscar(id_conta);
         req.setAttribute("contas", conta);
-
         req.setAttribute("id_conta", id_conta);
+
         LocalDate dtEncerramentoConta = conta.getDt_encerramento_conta();
         req.setAttribute("dtEncerramentoConta", dtEncerramentoConta != null ? dtEncerramentoConta.toString() : "N/A");
         req.getRequestDispatcher("edicaoConta.jsp").forward(req, resp);

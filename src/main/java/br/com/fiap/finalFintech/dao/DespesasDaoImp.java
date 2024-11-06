@@ -30,7 +30,13 @@ public class DespesasDaoImp implements DespesasDao {
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, despesa.getDsDespesa());
-            stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+
+            if (despesa.getDtDespesa() != null) {
+                stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+            } else {
+                stmt.setNull(2, java.sql.Types.DATE);
+            }
+
             stmt.setFloat(3, despesa.getQtValorDespesa());
             stmt.executeUpdate();
 
@@ -68,7 +74,13 @@ public class DespesasDaoImp implements DespesasDao {
 
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, despesa.getDsDespesa());
-            stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+
+            if (despesa.getDtDespesa() != null) {
+                stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+            } else {
+                stmt.setNull(2, java.sql.Types.DATE);
+            }
+
             stmt.setFloat(3, despesa.getQtValorDespesa());
             stmt.setInt(4, despesa.getIdDespesa());
 
@@ -129,7 +141,10 @@ public class DespesasDaoImp implements DespesasDao {
 
                 int idDespesa = rs.getInt("idDespesa");
                 String dsDespesa = rs.getString("dsDespesa");
-                LocalDate dtDespesa = rs.getDate("dtDespesa").toLocalDate();
+
+                java.sql.Date date = rs.getDate("dtDespesa");
+                LocalDate dtDespesa = (date != null) ? date.toLocalDate() : null;
+
                 float qtValorDespesa = rs.getFloat("qtValorDespesa");
 
                 Despesas despesa = new Despesas(idDespesa, dsDespesa, dtDespesa, qtValorDespesa);
@@ -168,7 +183,10 @@ public class DespesasDaoImp implements DespesasDao {
 
                 int idDespesa = rs.getInt("idDespesa");
                 String dsDespesa = rs.getString("dsDespesa");
-                LocalDate dtDespesa = rs.getDate("dtDespesa").toLocalDate();
+
+                java.sql.Date date = rs.getDate("dtDespesa");
+                LocalDate dtDespesa = (date != null) ? date.toLocalDate() : null;
+
                 float qtValorDespesa = rs.getFloat("qtValorDespesa");
 
                 despesa = new Despesas(idDespesa, dsDespesa, dtDespesa, qtValorDespesa);

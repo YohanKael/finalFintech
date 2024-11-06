@@ -42,8 +42,13 @@ public class DespesaServlet extends HttpServlet {
     private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try{
+
             String dsDespesa = req.getParameter("dsDespesa");
-            LocalDate dtDespesa = LocalDate.parse(req.getParameter("dtDespesa"));
+            String dtDespesaParam = req.getParameter("dtDespesa");
+            LocalDate dtDespesa = (dtDespesaParam != null && !dtDespesaParam.isEmpty())
+                    ? LocalDate.parse(dtDespesaParam)
+                    : null;
+
             float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
 
             Despesas despesa = new Despesas(dsDespesa, dtDespesa,qtValorDespesa);
@@ -70,7 +75,12 @@ public class DespesaServlet extends HttpServlet {
 
             int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
             String dsDespesa = req.getParameter("dsDespesa");
-            LocalDate dtDespesa = LocalDate.parse(req.getParameter("dtDespesa"));
+
+            String dtDespesaParam = req.getParameter("dtDespesa");
+            LocalDate dtDespesa = (dtDespesaParam != null && !dtDespesaParam.isEmpty())
+                    ? LocalDate.parse(dtDespesaParam)
+                    : null;
+
             float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
 
             Despesas despesa = new Despesas(idDespesa, dsDespesa,dtDespesa,qtValorDespesa);
@@ -136,6 +146,10 @@ public class DespesaServlet extends HttpServlet {
         int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
         Despesas despesa = dao.buscar(idDespesa);
         req.setAttribute("despesas", despesa);
+        req.setAttribute("idDespesa", idDespesa);
+
+        LocalDate dtDespesa = despesa.getDtDespesa();
+        req.setAttribute("dtDespesa", dtDespesa != null ? dtDespesa.toString() : "N/A");
         req.getRequestDispatcher("edicaoDespesas.jsp").forward(req, resp);
     }
 
