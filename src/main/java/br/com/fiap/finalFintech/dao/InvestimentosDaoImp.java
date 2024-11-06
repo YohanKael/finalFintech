@@ -3,14 +3,16 @@ package br.com.fiap.finalFintech.dao;
 import br.com.fiap.finalFintech.connection.ConnectionManager;
 import br.com.fiap.finalFintech.exception.DBException;
 import br.com.fiap.finalFintech.model.Conta;
+import br.com.fiap.finalFintech.model.Investimentos;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContasDaoImp implements ContasDao {
+public class InvestimentosDaoImp implements investimentosDao {
     private Connection conexao;
 
     @Override
@@ -19,15 +21,16 @@ public class ContasDaoImp implements ContasDao {
     }
 
     @Override
-    public void save(Conta conta) throws DBException {
+    public void save(Investimentos investimento) throws DBException {
         Connection conn = ConnectionManager.getConnection();
         PreparedStatement stmt = null;
 
-        String sql = "insert into tb_contas (" + "id_conta, saldo, dt_criacao_conta, dt_encerramento_conta)" + " values (seq_conta.nextval, ?, ?, ?)";
+        String sql = "insert into tb_investimentos (" + "cd_investimentos, ds_investimentos, qt_valor_investido, dt_investimentos, dt_retirada_investimentos)" + " values (seq_conta.nextval, ?, ?, ?, ?)";
 
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setFloat(1, conta.getSaldo());
+            stmt.setString(1, investimento.getDs_investimentos());
+
             stmt.setDate(2, Date.valueOf(conta.getDt_criacao_conta()));
 
             if (conta.getDt_encerramento_conta() != null) {
