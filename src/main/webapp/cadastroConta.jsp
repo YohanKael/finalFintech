@@ -30,7 +30,7 @@
                         <input type="date" name="dt_encerramento_conta" id="dt_encerramento_conta" class="form-control">
                     </div>
                     <input type="submit" value="Salvar" class="btn btn-primary my-3">
-                    <a href="listaDeContas.jsp" class="btn btn-secondary my-3">Visualizar lista de contas</a>
+                    <a href="contas?acao=listar" class="btn btn-secondary my-3">Visualizar lista de contas</a>
                     <a href="index.jsp" class="btn btn-warning my-3">Voltar ao início</a>
                 </form>
                 <c:if test="${not empty message}">

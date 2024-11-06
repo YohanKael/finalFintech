@@ -1,12 +1,15 @@
 package br.com.fiap.finalFintech.dao;
-
 import br.com.fiap.finalFintech.exception.DBException;
 import br.com.fiap.finalFintech.model.Conta;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface ContasDao {
+
+    void init(ServletConfig config) throws ServletException;
+
 
     void save(Conta conta) throws DBException;
 

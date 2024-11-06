@@ -1,8 +1,7 @@
 package br.com.fiap.finalFintech.dao;
-
 import br.com.fiap.finalFintech.connection.ConnectionManager;
 import br.com.fiap.finalFintech.exception.DBException;
-import br.com.fiap.finalFintech.model.Conta;
+import br.com.fiap.finalFintech.model.Despesas;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 
@@ -11,8 +10,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContasDaoImp implements ContasDao {
+public class DespesasDaoImp implements DespesasDao {
     private Connection conexao;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -20,24 +20,20 @@ public class ContasDaoImp implements ContasDao {
     }
 
     @Override
-    public void save(Conta conta) throws DBException {
+    public void save(Despesas despesa) throws DBException {
         Connection conn = ConnectionManager.getConnection();
         PreparedStatement stmt = null;
 
-        String sql = "insert into tb_contas (" + "id_conta, saldo, dt_criacao_conta, dt_encerramento_conta)" + " values (seq_conta.nextval, ?, ?, ?)";
+        String sql = "insert into tb_despesas (" + "idDespesa, dsDespesa , dtDespesa, qtValorDespesa)" + " values (seq_despesa.nextval, ?, ?, ?)";
 
         try {
+
             stmt = conn.prepareStatement(sql);
-            stmt.setFloat(1, conta.getSaldo());
-            stmt.setDate(2, Date.valueOf(conta.getDt_criacao_conta()));
-
-            if (conta.getDt_encerramento_conta() != null) {
-                stmt.setDate(3, Date.valueOf(conta.getDt_encerramento_conta()));
-            } else {
-                stmt.setNull(3, java.sql.Types.DATE);
-            }
-
+            stmt.setString(1, despesa.getDsDespesa());
+            stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+            stmt.setFloat(3, despesa.getQtValorDespesa());
             stmt.executeUpdate();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,28 +50,27 @@ public class ContasDaoImp implements ContasDao {
 
     }
 
-
-
     @Override
-    public void atualizar(Conta conta) throws DBException {
+    public void atualizar(Despesas despesa) throws DBException {
 
         PreparedStatement stmt = null;
         Connection conn = ConnectionManager.getConnection();
 
+
         try {
 
-            String sql = "UPDATE tb_contas SET " +
-                    "saldo = ?, " +
-                    "dt_criacao_conta = ?, " +
-                    "dt_encerramento_conta = ? " +
-                    "WHERE id_conta = ?";
+            String sql = "UPDATE tb_despesas SET " +
+                    "dsDespesa = ?, " +
+                    "dtDespesa = ?, " +
+                    "qtValorDespesa = ? " +
+                    "WHERE idDespesa = ?";
 
 
             stmt = conn.prepareStatement(sql);
-            stmt.setFloat(1, conta.getSaldo());
-            stmt.setDate(2, Date.valueOf(conta.getDt_criacao_conta()));
-            stmt.setDate(3, Date.valueOf(conta.getDt_encerramento_conta()));
-            stmt.setInt(4, conta.getId_conta());
+            stmt.setString(1, despesa.getDsDespesa());
+            stmt.setDate(2, Date.valueOf(despesa.getDtDespesa()));
+            stmt.setFloat(3, despesa.getQtValorDespesa());
+            stmt.setInt(4, despesa.getIdDespesa());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -84,7 +79,7 @@ public class ContasDaoImp implements ContasDao {
         } finally {
             try {
                 stmt.close();
-                conn.close();
+                conexao.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -94,11 +89,12 @@ public class ContasDaoImp implements ContasDao {
 
     @Override
     public void remove(int codigo) throws DBException {
+
         PreparedStatement stmt = null;
 
         try {
             conexao = ConnectionManager.getConnection();
-            String sql = "DELETE FROM tb_contas WHERE id_conta = ?";
+            String sql = "DELETE FROM tb_despesas WHERE idDespesa = ?";
             stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, codigo);
             stmt.executeUpdate();
@@ -117,29 +113,27 @@ public class ContasDaoImp implements ContasDao {
     }
 
     @Override
-    public List<Conta> listar() {
+    public List<Despesas> listar() {
 
-        List<Conta> lista = new ArrayList<>();
+        List<Despesas> lista = new ArrayList<>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             conexao = ConnectionManager.getConnection();
-            String sql = "SELECT * FROM tb_contas";
+            String sql = "SELECT * FROM tb_despesas";
             stmt = conexao.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int id_conta = rs.getInt("id_conta");
-                Float saldo = rs.getFloat("saldo");
-                LocalDate dt_criacao_conta = rs.getDate("dt_criacao_conta").toLocalDate();
 
-                java.sql.Date date = rs.getDate("dt_encerramento_conta");
-                LocalDate dt_encerramento_conta = (date != null) ? date.toLocalDate() : null;
+                int idDespesa = rs.getInt("idDespesa");
+                String dsDespesa = rs.getString("dsDespesa");
+                LocalDate dtDespesa = rs.getDate("dtDespesa").toLocalDate();
+                float qtValorDespesa = rs.getFloat("qtValorDespesa");
 
-
-                Conta conta = new Conta(id_conta, saldo, dt_criacao_conta, dt_encerramento_conta);
-                lista.add(conta);
+                Despesas despesa = new Despesas(idDespesa, dsDespesa, dtDespesa, qtValorDespesa);
+                lista.add(despesa);
 
             }
         } catch (SQLException e) {
@@ -157,29 +151,27 @@ public class ContasDaoImp implements ContasDao {
     }
 
     @Override
-    public Conta buscar(int id) {
+    public Despesas buscar(int id) {
 
-        Conta conta = null;
+        Despesas despesa = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             conexao = ConnectionManager.getConnection();
-            String sql = "SELECT * FROM tb_contas WHERE id_conta = ?";
+            String sql = "SELECT * FROM tb_despesas WHERE idDespesa = ?";
             stmt = conexao.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
 
             if (rs.next()){
 
-                int id_conta = rs.getInt("id_conta");
-                Float saldo = rs.getFloat("saldo");
-                LocalDate dt_criacao_conta = rs.getDate("dt_criacao_conta").toLocalDate();
+                int idDespesa = rs.getInt("idDespesa");
+                String dsDespesa = rs.getString("dsDespesa");
+                LocalDate dtDespesa = rs.getDate("dtDespesa").toLocalDate();
+                float qtValorDespesa = rs.getFloat("qtValorDespesa");
 
-                java.sql.Date date = rs.getDate("dt_encerramento_conta");
-                LocalDate dt_encerramento_conta = (date != null) ? date.toLocalDate() : null;
-
-                conta = new Conta(id_conta, saldo, dt_criacao_conta, dt_encerramento_conta);
+                despesa = new Despesas(idDespesa, dsDespesa, dtDespesa, qtValorDespesa);
             }
 
         } catch (SQLException e) {
@@ -193,6 +185,6 @@ public class ContasDaoImp implements ContasDao {
                 e.printStackTrace();
             }
         }
-        return conta;
+        return despesa;
     }
 }

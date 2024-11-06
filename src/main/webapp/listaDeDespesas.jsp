@@ -15,10 +15,10 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                LISTA DE CONTAS
+                LISTA DE DESPESAS
             </div>
             <div class="card-body">
-                <h5 class="card-title">Gestão de contas eficiente</h5>
+                <h5 class="card-title">Gestão de despesas eficiente</h5>
                 <p class="card-text">Mantenha os dados das suas contas sempre atualizados e protegidos.</p>
 
                 <c:if test="${not empty mensagem}">
@@ -32,64 +32,58 @@
                     <thead>
                     <tr>
                         <th>ID da conta</th>
-                        <th class="text-end">Saldo Da conta</th>
-                        <th class="text-center">Data de criacao da conta</th>
-                        <th class="text-center">Data de encerramento da conta</th>
+                        <th class="text-end">Descrição da despesa</th>
+                        <th class="text-center">Data de criacao da despesa</th>
+                        <th class="text-center">Valor da despesa</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${contas}" var="conta">
-                    <tr>
-                        <td>${conta.id_conta}</td>
-                        <td class="text-start">
-                            <fmt:formatNumber
-                            value="${conta.saldo}"/>
-                        </td>
-                        <td class="text-center">
-                            <fmt:parseDate
-                                    value="${conta.dt_criacao_conta}"
-                                    pattern="yyyy-mm-dd"
-                                    var="dt_criacao_conta"/>
-                            <fmt:formatDate
-                                value="${dt_criacao_conta}"
-                                pattern="dd/mm/yyyy"
-                            />
-                        </td>
-                        <td class="text-center">
-                            <fmt:parseDate
-                                    value="${conta.dt_encerramento_conta}"
-                                    pattern="yyyy-mm-dd"
-                                    var="dt_encerramento_conta"/>
-                            <fmt:formatDate
-                                    value="${dt_encerramento_conta}"
-                                    pattern="dd/mm/yyyy"
-                            />
-                        </td>
-                        <td class="text-center">
-                            <c:url value="contas" var="link">
-                                <c:param name="acao" value="abrir-form-edicao"/>
-                                <c:param name="id_conta" value="${conta.id_conta}"/>
-                                <c:param name="saldo" value="${conta.saldo}"/>
-                                <c:param name="dt_criacao_conta" value="${conta.dt_criacao_conta}"/>
-                                <c:param name="dt_encerramento_conta" value="${conta.dt_encerramento_conta}"/>
-                            </c:url>
-                            <a href="${link}" class="btn btn-primary">Editar</a>
+                    <c:forEach items="${despesas}" var="despesa">
+                        <tr>
+                            <td>${despesa.idDespesa}</td>
+                            <td class="text-start">
+                                        ${despesa.dsDespesa}
+                            </td>
+                            <td class="text-center">
+                                <fmt:parseDate
+                                        value="${despesa.dtDespesa}"
+                                        pattern="yyyy-mm-dd"
+                                        var="dtDespesa"/>
+                                <fmt:formatDate
+                                        value="${dtDespesa}"
+                                        pattern="dd/mm/yyyy"
+                                />
+                            </td>
+                            <td class="text-start">
+                                <fmt:formatNumber
+                                        value="${despesa.qtValorDespesa}"/>
+                            </td>
+                            <td class="text-center">
+                                <c:url value="despesas" var="link">
+                                    <c:param name="acao" value="abrir-form-edicao"/>
+                                    <c:param name="idDespesa" value="${despesa.idDespesa}"/>
+                                    <c:param name="dsDespesa" value="${despesa.dsDespesa}"/>
+                                    <c:param name="dtDespesa" value="${despesa.dtDespesa}"/>
+                                    <c:param name="qtValorDespesa" value="${despesa.qtValorDespesa}"/>
+                                </c:url>
 
-                            <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#excluirModal"
-                                    onclick="codigoExcluir.value = ${conta.id_conta}"
-                            >
-                                Excluir
-                            </button>
-                        </td>
-                    </tr>
+                                <a href="${link}" class="btn btn-primary">Editar</a>
+
+                                <button
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#excluirModal"
+                                        onclick="codigoExcluir.value = ${despesa.idDespesa}"
+                                >
+                                    Excluir
+                                </button>
+                            </td>
+                        </tr>
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="cadastroConta.jsp" class="btn btn-primary">Adicionar Conta</a>
+                <a href="cadastroDespesas.jsp" class="btn btn-primary">Adicionar Conta</a>
             </div>
         </div>
     </div>
@@ -116,7 +110,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h4>Tem certeza que deseja excluir essa conta?</h4>
+                <h4>Tem certeza que deseja excluir essa despesa?</h4>
                 <p><strong>Atenção!</strong> Esta ação é irreversível.</p>
             </div>
             <div class="modal-footer">

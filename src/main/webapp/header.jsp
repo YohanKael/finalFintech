@@ -13,7 +13,7 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="cadastroUsuario.jsp">Cadastro de Usuarios</a></li>
             <li><a class="dropdown-item" href="cadastroConta.jsp">Cadastro de Contas</a></li>
-            <li><a class="dropdown-item" href="#">Cadastro de Enderecos</a></li>
+            <li><a class="dropdown-item" href="cadastroDespesas.jsp">Cadastro de Despesas</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -23,7 +23,7 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Visualizar Usuarios</a></li>
             <li><a class="dropdown-item" href="contas?acao=listar">Visualizar Contas</a></li>
-            <li><a class="dropdown-item" href="#">Visualizar Enderecos</a></li>
+            <li><a class="dropdown-item" href="despesas?acao=listar">Visualizar Despesas</a></li>
           </ul>
         </li>
       </ul>

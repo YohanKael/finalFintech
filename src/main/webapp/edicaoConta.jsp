@@ -40,8 +40,9 @@
                     >
                     <input
                             type="hidden"
-                            value="${conta.id_conta}"
+                            value="${param.id_conta}"
                             name="id_conta"
+                            id="id_conta"
                     >
 
                     <div class="form-group">
@@ -53,7 +54,7 @@
                                 name="saldo"
                                 id="saldo"
                                 class="form-control"
-                                value="${conta.saldo}"
+                                value="${param.saldo}"
                         >
                     </div>
                     <div class="form-group">
@@ -65,7 +66,7 @@
                                 name="dt_criacao_conta"
                                 id="dt_criacao_conta"
                                 class="form-control"
-                                value="${dt_criacao_conta}"
+                                value="${param.dt_criacao_conta}"
                         >
                     </div>
                     <div class="form-group">
@@ -77,7 +78,7 @@
                                 name="dt_encerramento_conta"
                                 id="dt_encerramento_conta"
                                 class="form-control"
-                                value="${dt_encerramento_conta}"
+                                value="${param.dt_encerramento_conta}"
                         >
                     </div>
                     <input

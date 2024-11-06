@@ -1,35 +1,26 @@
 package br.com.fiap.finalFintech.controller;
-
-import br.com.fiap.finalFintech.dao.ContasDao;
-import br.com.fiap.finalFintech.exception.DBException;
-import br.com.fiap.finalFintech.model.Conta;
 import br.com.fiap.finalFintech.dao.ContasDaoImp;
-import jakarta.servlet.ServletConfig;
+import br.com.fiap.finalFintech.dao.DespesasDaoImp;
+import br.com.fiap.finalFintech.exception.DBException;
+import br.com.fiap.finalFintech.model.Despesas;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.time.LocalDate;
-
 import java.util.List;
 
-
-@WebServlet("/contas")
-public class ContaServlet extends HttpServlet {
-
-    private String message;
-    private ContasDaoImp dao;
+@WebServlet("/despesas")
+public class DespesaServlet extends HttpServlet {
+    private DespesasDaoImp dao;
 
     private void initializeDao() {
         if (this.dao == null) {
-            this.dao = new ContasDaoImp();
+            this.dao = new DespesasDaoImp();
         }
     }
-
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         initializeDao();
 
@@ -51,49 +42,47 @@ public class ContaServlet extends HttpServlet {
     private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try{
-        float saldo = Float.parseFloat(req.getParameter("saldo"));
-        LocalDate dt_criacao_conta = LocalDate.parse(req.getParameter("dt_criacao_conta"));
+            String dsDespesa = req.getParameter("dsDespesa");
+            LocalDate dtDespesa = LocalDate.parse(req.getParameter("dtDespesa"));
+            float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
 
-            String dtEncerramentoParam = req.getParameter("dt_encerramento_conta");
-            LocalDate dt_encerramento_conta = (dtEncerramentoParam != null && !dtEncerramentoParam.isEmpty())
-                    ? LocalDate.parse(dtEncerramentoParam)
-                    : null;
+            Despesas despesa = new Despesas(dsDespesa, dtDespesa,qtValorDespesa);
+            despesa.setDsDespesa(dsDespesa);
+            despesa.setDtDespesa(dtDespesa);
+            despesa.setQtValorDespesa(qtValorDespesa);
 
-        Conta conta = new Conta(saldo, dt_criacao_conta);
-        conta.setSaldo(saldo);
-        conta.setDt_criacao_conta(dt_criacao_conta);
-        conta.setDt_encerramento_conta(dt_encerramento_conta);
+            DespesasDaoImp despesaDao = new DespesasDaoImp();
+            despesaDao.save(despesa);
 
-        ContasDaoImp contaDao = new ContasDaoImp();
-        contaDao.save(conta);
-
-        req.setAttribute("message", "Conta Cadastrada com sucesso!");
+            req.setAttribute("message", "Despesa Cadastrada com sucesso!");
+            req.getRequestDispatcher("/cadastroDespesas.jsp").forward(req,resp);
 
 
-    } catch (DBException db){
+        } catch (DBException db){
             db.printStackTrace();
-            req.setAttribute("erro", "Erro ao Cadastrar Conta!");
+            req.setAttribute("erro", "Erro ao cadastrar despesa!");
         }
-        req.getRequestDispatcher("/cadastroConta.jsp").forward(req,resp);
+        req.getRequestDispatcher("/cadastroDespesas.jsp").forward(req,resp);
     }
 
     private void editar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int id_conta = Integer.parseInt(req.getParameter("id_conta"));
-            float saldo = Float.parseFloat(req.getParameter("saldo"));
-            LocalDate dt_criacao_conta = LocalDate.parse(req.getParameter("dt_criacao_conta"));
-            LocalDate dt_encerramento_conta = LocalDate.parse(req.getParameter("dt_encerramento_conta"));
 
-            Conta conta = new Conta(id_conta,saldo, dt_criacao_conta, dt_encerramento_conta);
-            conta.setId_conta(id_conta);
-            conta.setSaldo(saldo);
-            conta.setDt_criacao_conta(dt_criacao_conta);
-            conta.setDt_encerramento_conta(dt_encerramento_conta);
+            int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
+            String dsDespesa = req.getParameter("dsDespesa");
+            LocalDate dtDespesa = LocalDate.parse(req.getParameter("dtDespesa"));
+            float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
 
-            dao.atualizar(conta);
+            Despesas despesa = new Despesas(idDespesa, dsDespesa,dtDespesa,qtValorDespesa);
+            despesa.setIdDespesa(idDespesa);
+            despesa.setDsDespesa(dsDespesa);
+            despesa.setDtDespesa(dtDespesa);
+            despesa.setQtValorDespesa(qtValorDespesa);
+
+            dao.atualizar(despesa);
 
 
-            req.setAttribute("mensagem", "Conta atualizada com sucesso!");
+            req.setAttribute("mensagem", "Despesa atualizada com sucesso!");
         } catch (DBException db) {
             db.printStackTrace();
             req.setAttribute("erro", "Erro ao atualizar!!");
@@ -111,7 +100,7 @@ public class ContaServlet extends HttpServlet {
         try {
             dao.remove(codigo);
 
-            req.setAttribute("msg", "Conta removida com sucesso!");
+            req.setAttribute("msg", "Despesa removida com sucesso!");
         } catch (DBException e) {
             e.printStackTrace();
             req.setAttribute("erro", "Erro ao atualizar");
@@ -122,6 +111,7 @@ public class ContaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         initializeDao();
+
         String acao = req.getParameter("acao");
 
         switch (acao) {
@@ -139,25 +129,20 @@ public class ContaServlet extends HttpServlet {
     }
 
     private void abrirFormCadastro(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("cadastroConta.jsp").forward(req, resp);
+        req.getRequestDispatcher("cadastroDespesa.jsp").forward(req, resp);
     }
 
     private void abrirForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id_conta = Integer.parseInt(req.getParameter("id_conta"));
-        Conta conta = dao.buscar(id_conta);
-        req.setAttribute("contas", conta);
-
-        req.setAttribute("id_conta", id_conta);
-        LocalDate dtEncerramentoConta = conta.getDt_encerramento_conta();
-        req.setAttribute("dtEncerramentoConta", dtEncerramentoConta != null ? dtEncerramentoConta.toString() : "N/A");
-        req.getRequestDispatcher("edicaoConta.jsp").forward(req, resp);
+        int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
+        Despesas despesa = dao.buscar(idDespesa);
+        req.setAttribute("despesas", despesa);
+        req.getRequestDispatcher("edicaoDespesas.jsp").forward(req, resp);
     }
 
     private void listar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Conta> lista = dao.listar();
-        req.setAttribute("contas", lista);
-        req.getRequestDispatcher("listaDeContas.jsp").forward(req, resp);
+        List<Despesas> lista = dao.listar();
+        req.setAttribute("despesas", lista);
+        req.getRequestDispatcher("listaDeDespesas.jsp").forward(req, resp);
     }
 
 }
-
