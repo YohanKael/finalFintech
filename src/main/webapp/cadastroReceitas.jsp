@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastro de contas</title>
+    <title>Cadastro de Despesas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css">
 </head>
@@ -13,24 +13,24 @@
     <div class="mt-5 ms-5 me-5">
         <div class="card mb-3">
             <div class="card-header">
-                CADASTRO DE CONTAS
+                CADASTRO DE RECEITAS
             </div>
             <div class="card-body">
-                <form action="contas?acao=cadastrar" method="post">
+                <form action="receitas?acao=cadastrar" method="post">
                     <div class="form-group">
-                        <label for="id-saldo">Saldo</label>
-                        <input type="text" name="saldo" id="id-saldo" class="form-control" required>
+                        <label for="dsReceita">descrição da receita</label>
+                        <input type="text" name="dsReceita" id="dsReceita" class="form-control" required>
                     </div>
                     <div class="form-group">
-                    <label for="dt_criacao_conta">Data de criacao da conta</label>
-                    <input type="date" name="dt_criacao_conta" id="dt_criacao_conta" class="form-control" required>
+                        <label for="dtReceita">Data de criacao da receita</label>
+                        <input type="date" name="dtReceita" id="dtReceita" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="dt_encerramento_conta">Data de encerramento da conta</label>
-                        <input type="date" name="dt_encerramento_conta" id="dt_encerramento_conta" class="form-control">
+                        <label for="qtValorReceita">Valor da receita</label>
+                        <input type="text" name="qtValorReceita" id="qtValorReceita" class="form-control" required>
                     </div>
                     <input type="submit" value="Salvar" class="btn btn-primary my-3">
-                    <a href="contas?acao=listar" class="btn btn-secondary my-3">Visualizar lista de contas</a>
+                    <a href="receitas?acao=listar" class="btn btn-secondary my-3">Visualizar lista de receitas</a>
                     <a href="index.jsp" class="btn btn-warning my-3">Voltar ao início</a>
                 </form>
                 <c:if test="${not empty message}">

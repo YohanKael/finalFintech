@@ -54,11 +54,12 @@
                     id="dsDespesa"
                     class="form-control"
                     value="${param.dsDespesa}"
+                    required
             >
           </div>
           <div class="form-group">
             <label
-                    for="dtDespesa">dt_criacao_conta
+                    for="dtDespesa">Data da despesa
             </label>
             <input
                     type="date"
@@ -66,11 +67,12 @@
                     id="dtDespesa"
                     class="form-control"
                     value="${param.dtDespesa}"
+                    required
             >
           </div>
           <div class="form-group">
             <label
-                    for="qtValorDespesa">valor da despesa
+                    for="qtValorDespesa">Valor da despesa
             </label>
             <input
                     type="text"
@@ -78,6 +80,7 @@
                     id="qtValorDespesa"
                     class="form-control"
                     value="${param.qtValorDespesa}"
+                    required
             >
           </div>
           <input

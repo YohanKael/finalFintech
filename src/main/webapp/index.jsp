@@ -9,34 +9,31 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<div class="container">
+<div class="container ms-0">
+    <%
+        Boolean loginSucesso = (Boolean) request.getAttribute("loginSucesso");
+        if (loginSucesso != null && loginSucesso) {
+    %>
+    <script>
+        alert("Login realizado com sucesso!");
+    </script>
+    <%
+        }
+    %>
     <div class="mt-5 ms-5 me-5">
-        <div class="card mb-3">
-            <div class="card-header">
-                CADASTRO DE PRODUTO
-            </div>
-            <div class="card-body">
-                <form action="produto" method="post">
-                    <div class="form-group">
-                        <label for="id-nome">Nome</label>
-                        <input type="text" name="nome" id="id-nome" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="id-valor">Valor</label>
-                        <input type="text" name="valor" id="id-valor" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="id-quantidade">Quantidade</label>
-                        <input type="text" name="quantidade" id="id-quantidade" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="id-fabricacao">Data de Fabricação</label>
-                        <input type="text" name="fabricacao" id="id-fabricacao" class="form-control">
-                    </div>
-                    <input type="submit" value="Salvar" class="btn btn-primary mt-3">
-                </form>
-            </div>
-        </div>
+        <h1>
+            Bem vindo a Nossa Fintech!
+        </h1>
+        <h5 class="pt-5">
+            Aqui oferecemos um serviço completo para cadastro, visualização, edição e exclusão de dados. <br>
+            Esses recursos permitem gerenciar informações de forma prática e eficiente. <br>
+        </h5>
+        <h2>
+            Para utilizar todas as funcionalidades disponíveis, é necessário realizar o login no sistema.
+            Assim, você terá acesso total aos recursos e poderá gerenciar seus dados com segurança.
+        </h2>
+
+
     </div>
 </div>
 <%@include file="footer.jsp" %>

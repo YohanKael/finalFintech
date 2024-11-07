@@ -15,10 +15,10 @@
 
         <div class="card mb-3">
             <div class="card-header">
-                LISTA DE DESPESAS
+                LISTA DE ENDEREÇOS
             </div>
             <div class="card-body">
-                <h5 class="card-title">Gestão de despesas eficiente</h5>
+                <h5 class="card-title">Gestão de endereços eficiente</h5>
                 <p class="card-text">Mantenha os dados das suas contas sempre atualizados e protegidos.</p>
 
                 <c:if test="${not empty mensagem}">
@@ -31,42 +31,31 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>ID da despesa</th>
-                        <th class="text-end">Descrição da despesa</th>
-                        <th class="text-center">Data de criacao da despesa</th>
-                        <th class="text-center">Valor da despesa</th>
+                        <th>ID do Endereço</th>
+                        <th class="text-end">CEP</th>
+                        <th class="text-center">Numero da residencia</th>
+                        <th class="text-center">Nome da rua</th>
+                        <th class="text-center">Complemento do Endereço</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${despesas}" var="despesa">
+                    <c:forEach items="${enderecos}" var="endereco">
                         <tr>
-                            <td>${despesa.idDespesa}</td>
-                            <td class="text-start">
-                                        ${despesa.dsDespesa}
-                            </td>
-                            <td class="text-center">
-                                <fmt:parseDate
-                                        value="${despesa.dtDespesa}"
-                                        pattern="yyyy-mm-dd"
-                                        var="dtDespesa"/>
-                                <fmt:formatDate
-                                        value="${dtDespesa}"
-                                        pattern="dd/mm/yyyy"
-                                />
-                            </td>
-                            <td class="text-start">
-                                <fmt:formatNumber
-                                        value="${despesa.qtValorDespesa}"/>
-                            </td>
-                            <td class="text-center">
-                                <c:url value="despesas" var="link">
-                                    <c:param name="acao" value="abrir-form-edicao"/>
-                                    <c:param name="idDespesa" value="${despesa.idDespesa}"/>
-                                    <c:param name="dsDespesa" value="${despesa.dsDespesa}"/>
-                                    <c:param name="dtDespesa" value="${despesa.dtDespesa}"/>
-                                    <c:param name="qtValorDespesa" value="${despesa.qtValorDespesa}"/>
-                                </c:url>
+                            <td>${endereco.idEndereco}</td>
+                            <td>${endereco.numeroCep}</td>
+                            <td>${endereco.numeroResidencia}</td>
+                            <td>${endereco.nomeRua}</td>
+                            <td>${endereco.complementoEndereco}</td>
 
+                            <td class="text-center">
+                                <c:url value="enderecos" var="link">
+                                    <c:param name="acao" value="abrir-form-edicao"/>
+                                    <c:param name="idEndereco" value="${endereco.idEndereco}"/>
+                                    <c:param name="numeroCep" value="${endereco.numeroCep}"/>
+                                    <c:param name="numeroResidencia" value="${endereco.numeroResidencia}"/>
+                                    <c:param name="nomeRua" value="${endereco.nomeRua}"/>
+                                    <c:param name="complementoEndereco" value="${endereco.complementoEndereco}"/>
+                                </c:url>
                                 <a href="${link}" class="btn btn-primary">Editar</a>
 
                                 <button
@@ -74,7 +63,7 @@
                                         class="btn btn-danger"
                                         data-bs-toggle="modal"
                                         data-bs-target="#excluirModal"
-                                        onclick="codigoExcluir.value = ${despesa.idDespesa}"
+                                        onclick="codigoExcluir.value = ${endereco.idEndereco}"
                                 >
                                     Excluir
                                 </button>
@@ -83,7 +72,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <a href="cadastroDespesas.jsp" class="btn btn-primary">Adicionar Despesa</a>
+                <a href="cadastroEnderecos.jsp" class="btn btn-primary">Adicionar Endereço</a>
             </div>
         </div>
     </div>
@@ -110,12 +99,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h4>Tem certeza que deseja excluir essa despesa?</h4>
+                <h4>Tem certeza que deseja excluir esse endereço?</h4>
                 <p><strong>Atenção!</strong> Esta ação é irreversível.</p>
             </div>
             <div class="modal-footer">
 
-                <form action="despesas" method="post">
+                <form action="enderecos" method="post">
                     <input
                             type="hidden"
                             name="acao"

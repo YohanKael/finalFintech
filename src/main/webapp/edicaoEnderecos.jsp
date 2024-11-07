@@ -13,7 +13,7 @@
     <div class="mt-5 ms-5 me-5">
         <div class="card mb-3">
             <div class="card-header">
-                EDIÇÃO DE CONTA
+                EDIÇÃO DE ENDEREÇO
             </div>
 
             <c:if test="${not empty mensagem}">
@@ -30,7 +30,7 @@
 
             <div class="card-body">
                 <form
-                        action="contas"
+                        action="enderecos"
                         method="post">
 
                     <input
@@ -40,47 +40,63 @@
                     >
                     <input
                             type="hidden"
-                            value="${param.id_conta}"
-                            name="id_conta"
-                            id="id_conta"
+                            value="${param.idEndereco}"
+                            name="idEndereco"
+                            id="idEndereco"
                     >
 
                     <div class="form-group">
                         <label
-                                for="saldo">saldo
+                                for="numeroCep">CEP
                         </label>
                         <input
                                 type="text"
-                                name="saldo"
-                                id="saldo"
+                                name="numeroCep"
+                                id="numeroCep"
                                 class="form-control"
-                                value="${param.saldo}"
+                                value="${param.numeroCep}"
+                                placeholder="Digite somente os numeros do CEP"
+                                required
+                                maxlength="8"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label
+                                for="numeroResidencia">Numero Residencia
+                        </label>
+                        <input
+                                type="text"
+                                name="numeroResidencia"
+                                id="numeroResidencia"
+                                class="form-control"
+                                value="${param.numeroResidencia}"
                                 required
                         >
                     </div>
                     <div class="form-group">
                         <label
-                                for="dt_criacao_conta">Data de criação da conta
+                                for="nomeRua">nomeRua
                         </label>
                         <input
-                                type="date"
-                                name="dt_criacao_conta"
-                                id="dt_criacao_conta"
+                                type="text"
+                                name="nomeRua"
+                                id="nomeRua"
                                 class="form-control"
-                                value="${param.dt_criacao_conta}"
+                                value="${param.nomeRua}"
                                 required
                         >
                     </div>
                     <div class="form-group">
                         <label
-                                for="dt_encerramento_conta">Data de encerramento da conta
+                                for="complementoEndereco">Complemento do Endereço
                         </label>
                         <input
-                                type="date"
-                                name="dt_encerramento_conta"
-                                id="dt_encerramento_conta"
+                                type="text"
+                                name="complementoEndereco"
+                                id="complementoEndereco"
                                 class="form-control"
-                                value="${param.dt_encerramento_conta}"
+                                value="${param.complementoEndereco}"
+                                required
                         >
                     </div>
                     <input
@@ -88,7 +104,7 @@
                             value="Salvar"
                             class="btn btn-primary mt-3">
                     <a
-                            href="contas?acao=listar"
+                            href="enderecos?acao=listar"
                             class="btn btn-warning mt-3">Cancelar
                     </a>
                 </form>

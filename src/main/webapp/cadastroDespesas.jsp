@@ -19,15 +19,15 @@
         <form action="despesas?acao=cadastrar" method="post">
           <div class="form-group">
             <label for="dsDespesa">descrição da despesa</label>
-            <input type="text" name="dsDespesa" id="dsDespesa" class="form-control">
+            <input type="text" name="dsDespesa" id="dsDespesa" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="dtDespesa">Data de criacao da despesa</label>
-            <input type="date" name="dtDespesa" id="dtDespesa" class="form-control">
+            <input type="date" name="dtDespesa" id="dtDespesa" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="qtValorDespesa">Valor da despesa</label>
-            <input type="text" name="qtValorDespesa" id="qtValorDespesa" class="form-control">
+            <input type="text" name="qtValorDespesa" id="qtValorDespesa" class="form-control" required>
           </div>
           <input type="submit" value="Salvar" class="btn btn-primary my-3">
           <a href="despesas?acao=listar" class="btn btn-secondary my-3">Visualizar lista de despesas</a>

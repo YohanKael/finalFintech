@@ -13,7 +13,7 @@
     <div class="mt-5 ms-5 me-5">
         <div class="card mb-3">
             <div class="card-header">
-                EDIÇÃO DE CONTA
+                EDIÇÃO DE RECEITAS
             </div>
 
             <c:if test="${not empty mensagem}">
@@ -30,7 +30,7 @@
 
             <div class="card-body">
                 <form
-                        action="contas"
+                        action="receitas"
                         method="post">
 
                     <input
@@ -40,47 +40,47 @@
                     >
                     <input
                             type="hidden"
-                            value="${param.id_conta}"
-                            name="id_conta"
-                            id="id_conta"
+                            value="${param.idReceita}"
+                            name="idReceita"
                     >
 
                     <div class="form-group">
                         <label
-                                for="saldo">saldo
+                                for="dsReceita">Descricao Receita
                         </label>
                         <input
                                 type="text"
-                                name="saldo"
-                                id="saldo"
+                                name="dsReceita"
+                                id="dsReceita"
                                 class="form-control"
-                                value="${param.saldo}"
+                                value="${param.dsReceita}"
                                 required
                         >
                     </div>
                     <div class="form-group">
                         <label
-                                for="dt_criacao_conta">Data de criação da conta
+                                for="dtReceita">Data da Receita
                         </label>
                         <input
                                 type="date"
-                                name="dt_criacao_conta"
-                                id="dt_criacao_conta"
+                                name="dtReceita"
+                                id="dtReceita"
                                 class="form-control"
-                                value="${param.dt_criacao_conta}"
+                                value="${param.dtReceita}"
                                 required
                         >
                     </div>
                     <div class="form-group">
                         <label
-                                for="dt_encerramento_conta">Data de encerramento da conta
+                                for="qtValorReceita">Valor da receita
                         </label>
                         <input
-                                type="date"
-                                name="dt_encerramento_conta"
-                                id="dt_encerramento_conta"
+                                type="text"
+                                name="qtValorReceita"
+                                id="qtValorReceita"
                                 class="form-control"
-                                value="${param.dt_encerramento_conta}"
+                                value="${param.qtValorReceita}"
+                                required
                         >
                     </div>
                     <input
@@ -88,7 +88,7 @@
                             value="Salvar"
                             class="btn btn-primary mt-3">
                     <a
-                            href="contas?acao=listar"
+                            href="receitas?acao=listar"
                             class="btn btn-warning mt-3">Cancelar
                     </a>
                 </form>
