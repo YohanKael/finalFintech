@@ -42,7 +42,7 @@
                     <tr>
                         <td>${conta.id_conta}</td>
                         <td class="text-start">
-                            <fmt:formatNumber
+                            R$<fmt:formatNumber
                             value="${conta.saldo}"/>
                         </td>
                         <td class="text-center">

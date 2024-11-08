@@ -2,17 +2,22 @@ package br.com.fiap.finalFintech.model;
 
 import java.time.LocalDate;
 
-public class Investimentos extends Conta {
+public class Investimentos{
 
     private int cd_investimentos;
 
     private String ds_investimentos;
 
-    private float qt_valor_investido;
+    private float qt_valor_investimento;
 
     private LocalDate dt_investimentos;
 
     private LocalDate dt_retirada_investimentos;
+
+    public Investimentos(float qtValorInvestido, LocalDate dtInvestimentos) {
+        this.qt_valor_investimento = qtValorInvestido;
+        this.dt_investimentos = dtInvestimentos;
+    }
 
 
     public int getCd_investimentos() {
@@ -31,12 +36,12 @@ public class Investimentos extends Conta {
         this.ds_investimentos = ds_investimentos;
     }
 
-    public float getQt_valor_investido() {
-        return qt_valor_investido;
+    public float getQt_valor_investimento() {
+        return qt_valor_investimento;
     }
 
-    public void setQt_valor_investido(float qt_valor_investido) {
-        this.qt_valor_investido = qt_valor_investido;
+    public void setQt_valor_investimento(float qt_valor_investimento) {
+        this.qt_valor_investimento = qt_valor_investimento;
     }
 
     public LocalDate getDt_investimentos() {
@@ -58,31 +63,21 @@ public class Investimentos extends Conta {
 
 
 
-    public Investimentos(int cd_conta, int cd_investimentos, String ds_investimentos, float qt_valor_investido, LocalDate dt_investimentos, LocalDate dt_retirada_investimentos){
-        super(cd_conta);
+    public Investimentos(int cd_investimentos, String ds_investimentos, float qt_valor_investido, LocalDate dt_investimentos, LocalDate dt_retirada_investimentos){
         this.cd_investimentos = cd_investimentos;
         this.ds_investimentos = ds_investimentos;
-        this.qt_valor_investido = qt_valor_investido;
+        this.qt_valor_investimento = qt_valor_investido;
         this.dt_investimentos = dt_investimentos;
         this.dt_retirada_investimentos = dt_retirada_investimentos;
     }
 
     public Investimentos(String ds_investimentos, float qt_valor_investido, LocalDate dt_investimentos, LocalDate dt_retirada_investimentos){
-        super();
         this.ds_investimentos = ds_investimentos;
-        this.qt_valor_investido = qt_valor_investido;
+        this.qt_valor_investimento = qt_valor_investido;
         this.dt_investimentos = dt_investimentos;
         this.dt_retirada_investimentos = dt_retirada_investimentos;
     }
 
-    public Investimentos(int cd_investimentos ,String ds_investimentos, float qt_valor_investido, LocalDate dt_investimentos, LocalDate dt_retirada_investimentos){
-        super();
-        this.cd_investimentos = cd_investimentos;
-        this.ds_investimentos = ds_investimentos;
-        this.qt_valor_investido = qt_valor_investido;
-        this.dt_investimentos = dt_investimentos;
-        this.dt_retirada_investimentos = dt_retirada_investimentos;
-    }
 
     public Investimentos(){
 

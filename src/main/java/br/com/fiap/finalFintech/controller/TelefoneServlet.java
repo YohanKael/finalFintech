@@ -1,25 +1,28 @@
 package br.com.fiap.finalFintech.controller;
-import br.com.fiap.finalFintech.dao.DespesasDaoImp;
+import br.com.fiap.finalFintech.dao.TelefonesDaoImp;
 import br.com.fiap.finalFintech.exception.DBException;
-import br.com.fiap.finalFintech.model.Despesas;
+import br.com.fiap.finalFintech.model.Telefones;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet("/despesas")
-public class DespesaServlet extends HttpServlet {
-    private DespesasDaoImp dao;
+@WebServlet("/telefones")
+public class TelefoneServlet extends HttpServlet {
+
+    private String message;
+    private TelefonesDaoImp dao;
 
     private void initializeDao() {
         if (this.dao == null) {
-            this.dao = new DespesasDaoImp();
+            this.dao = new TelefonesDaoImp();
         }
     }
+
+
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         initializeDao();
 
@@ -41,57 +44,47 @@ public class DespesaServlet extends HttpServlet {
     private void cadastrar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try{
+            String nrCodigoPais = req.getParameter("nrCodigoPais");
+            String nrDdd = req.getParameter("nrDdd");
+            String nrTelefone = req.getParameter("nrTelefone");
 
-            String dsDespesa = req.getParameter("dsDespesa");
-            String dtDespesaParam = req.getParameter("dtDespesa");
-            LocalDate dtDespesa = (dtDespesaParam != null && !dtDespesaParam.isEmpty())
-                    ? LocalDate.parse(dtDespesaParam)
-                    : null;
 
-            float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
+            Telefones telefone = new Telefones(nrCodigoPais, nrDdd,nrTelefone);
+            telefone.setNrCodigoPais(nrCodigoPais);
+            telefone.setNrDdd(nrDdd);
+            telefone.setNrTelefone(nrTelefone);
 
-            Despesas despesa = new Despesas(dsDespesa, dtDespesa,qtValorDespesa);
-            despesa.setDsDespesa(dsDespesa);
-            despesa.setDtDespesa(dtDespesa);
-            despesa.setQtValorDespesa(qtValorDespesa);
+            TelefonesDaoImp telefoneDao = new TelefonesDaoImp();
+            telefoneDao.save(telefone);
 
-            DespesasDaoImp despesaDao = new DespesasDaoImp();
-            despesaDao.save(despesa);
-
-            req.setAttribute("message", "Despesa Cadastrada com sucesso!");
-            req.getRequestDispatcher("/cadastroDespesas.jsp").forward(req,resp);
+            req.setAttribute("message", "Telefone Cadastrado com sucesso!");
 
 
         } catch (DBException db){
             db.printStackTrace();
-            req.setAttribute("erro", "Erro ao cadastrar despesa!");
+            req.setAttribute("erro", "Erro ao Cadastrar Telefone!");
         }
-        req.getRequestDispatcher("/cadastroDespesas.jsp").forward(req,resp);
+        req.getRequestDispatcher("/cadastroTelefones.jsp").forward(req,resp);
     }
 
     private void editar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-
-            int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
-            String dsDespesa = req.getParameter("dsDespesa");
-
-            String dtDespesaParam = req.getParameter("dtDespesa");
-            LocalDate dtDespesa = (dtDespesaParam != null && !dtDespesaParam.isEmpty())
-                    ? LocalDate.parse(dtDespesaParam)
-                    : null;
-
-            float qtValorDespesa = Float.parseFloat(req.getParameter("qtValorDespesa"));
-
-            Despesas despesa = new Despesas(idDespesa, dsDespesa,dtDespesa,qtValorDespesa);
-            despesa.setIdDespesa(idDespesa);
-            despesa.setDsDespesa(dsDespesa);
-            despesa.setDtDespesa(dtDespesa);
-            despesa.setQtValorDespesa(qtValorDespesa);
-
-            dao.atualizar(despesa);
+            int idTelefone = Integer.parseInt(req.getParameter("idTelefone"));
+            String nrCodigoPais = req.getParameter("nrCodigoPais");
+            String nrDdd = req.getParameter("nrDdd");
+            String nrTelefone = req.getParameter("nrTelefone");
 
 
-            req.setAttribute("mensagem", "Despesa atualizada com sucesso!");
+            Telefones telefone = new Telefones(nrCodigoPais, nrDdd,nrTelefone);
+            telefone.setIdTelefone(idTelefone);
+            telefone.setNrCodigoPais(nrCodigoPais);
+            telefone.setNrDdd(nrDdd);
+            telefone.setNrTelefone(nrTelefone);
+
+            dao.atualizar(telefone);
+
+
+            req.setAttribute("mensagem", "Telefone atualizado com sucesso!");
         } catch (DBException db) {
             db.printStackTrace();
             req.setAttribute("erro", "Erro ao atualizar!!");
@@ -109,7 +102,7 @@ public class DespesaServlet extends HttpServlet {
         try {
             dao.remove(codigo);
 
-            req.setAttribute("msg", "Despesa removida com sucesso!");
+            req.setAttribute("msg", "Telefone removido com sucesso!");
         } catch (DBException e) {
             e.printStackTrace();
             req.setAttribute("erro", "Erro ao atualizar");
@@ -120,7 +113,6 @@ public class DespesaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         initializeDao();
-
         String acao = req.getParameter("acao");
 
         switch (acao) {
@@ -138,24 +130,21 @@ public class DespesaServlet extends HttpServlet {
     }
 
     private void abrirFormCadastro(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("cadastroDespesa.jsp").forward(req, resp);
+        req.getRequestDispatcher("cadastroTelefones.jsp").forward(req, resp);
     }
 
     private void abrirForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int idDespesa = Integer.parseInt(req.getParameter("idDespesa"));
-        Despesas despesa = dao.buscar(idDespesa);
-        req.setAttribute("despesas", despesa);
-        req.setAttribute("idDespesa", idDespesa);
+        int idTelefone = Integer.parseInt(req.getParameter("idTelefone"));
+        Telefones telefone = dao.buscar(idTelefone);
+        req.setAttribute("telefones", telefone);
+        req.setAttribute("idTelefone", idTelefone);
 
-        LocalDate dtDespesa = despesa.getDtDespesa();
-        req.setAttribute("dtDespesa", dtDespesa != null ? dtDespesa.toString() : "N/A");
-        req.getRequestDispatcher("edicaoDespesas.jsp").forward(req, resp);
+        req.getRequestDispatcher("edicaoTelefones.jsp").forward(req, resp);
     }
 
     private void listar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Despesas> lista = dao.listar();
-        req.setAttribute("despesas", lista);
-        req.getRequestDispatcher("listaDeDespesas.jsp").forward(req, resp);
+        List<Telefones> lista = dao.listar();
+        req.setAttribute("telefones", lista);
+        req.getRequestDispatcher("listaDeTelefones.jsp").forward(req, resp);
     }
-
 }

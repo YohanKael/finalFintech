@@ -15,10 +15,10 @@
 
     <div class="card mb-3">
       <div class="card-header">
-        LISTA DE RECEITAS
+        LISTA DE TELEFONES
       </div>
       <div class="card-body">
-        <h5 class="card-title">Gestão de receitas eficiente</h5>
+        <h5 class="card-title">Gestão de telefones</h5>
         <p class="card-text">Mantenha os dados das suas contas sempre atualizados e protegidos.</p>
 
         <c:if test="${not empty mensagem}">
@@ -31,42 +31,29 @@
         <table class="table table-striped table-bordered">
           <thead>
           <tr>
-            <th>ID da receita</th>
-            <th class="text-end">Descrição da receita</th>
-            <th class="text-center">Data de criacao da receita</th>
-            <th class="text-center">Valor da receita</th>
+            <th>ID do Telefone</th>
+            <th class="text-end">Código do país</th>
+            <th class="text-center">DDD</th>
+            <th class="text-center">Numero do Telefone</th>
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${receitas}" var="receita">
+          <c:forEach items="${telefones}" var="telefone">
             <tr>
-              <td>${receita.idReceita}</td>
-              <td class="text-start">
-                  ${receita.dsReceita}
-              </td>
-              <td class="text-center">
-                <fmt:parseDate
-                        value="${receita.dtReceita}"
-                        pattern="yyyy-mm-dd"
-                        var="dtReceita"/>
-                <fmt:formatDate
-                        value="${dtReceita}"
-                        pattern="dd/mm/yyyy"
-                />
-              </td>
-              <td class="text-start">
-                R$<fmt:formatNumber
-                        value="${receita.qtValorReceita}"/>
-              </td>
-              <td class="text-center">
-                <c:url value="receitas" var="link">
-                  <c:param name="acao" value="abrir-form-edicao"/>
-                  <c:param name="idReceita" value="${receita.idReceita}"/>
-                  <c:param name="dsReceita" value="${receita.dsReceita}"/>
-                  <c:param name="dtReceita" value="${receita.dtReceita}"/>
-                  <c:param name="qtValorReceita" value="${receita.qtValorReceita}"/>
-                </c:url>
+              <td>${telefone.idTelefone}</td>
+              <td>${telefone.nrCodigoPais}</td>
+              <td>${telefone.nrDdd}</td>
+              <td>${telefone.nrTelefone}</td>
 
+              <td class="text-center">
+                <c:url value="telefones" var="link">
+                  <c:param name="acao" value="abrir-form-edicao"/>
+                  <c:param name="idTelefone" value="${telefone.idTelefone}"/>
+                  <c:param name="nrCodigoPais" value="${telefone.nrCodigoPais}"/>
+                  <c:param name="nrDdd" value="${telefone.nrDdd}"/>
+                  <c:param name="nrTelefone" value="${telefone.nrTelefone}"/>
+
+                </c:url>
                 <a href="${link}" class="btn btn-primary">Editar</a>
 
                 <button
@@ -74,7 +61,7 @@
                         class="btn btn-danger"
                         data-bs-toggle="modal"
                         data-bs-target="#excluirModal"
-                        onclick="codigoExcluir.value = ${receita.idReceita}"
+                        onclick="codigoExcluir.value = ${telefone.idTelefone}"
                 >
                   Excluir
                 </button>
@@ -83,7 +70,7 @@
           </c:forEach>
           </tbody>
         </table>
-        <a href="cadastroReceitas.jsp" class="btn btn-primary">Adicionar Receita</a>
+        <a href="cadastroTelefones.jsp" class="btn btn-primary">Adicionar Telefone</a>
       </div>
     </div>
   </div>
@@ -110,12 +97,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4>Tem certeza que deseja excluir essa receita?</h4>
+        <h4>Tem certeza que deseja excluir esse telefone?</h4>
         <p><strong>Atenção!</strong> Esta ação é irreversível.</p>
       </div>
       <div class="modal-footer">
 
-        <form action="receitas" method="post">
+        <form action="telefones" method="post">
           <input
                   type="hidden"
                   name="acao"

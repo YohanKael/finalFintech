@@ -15,7 +15,9 @@
               <li><a class="dropdown-item" href="cadastroConta.jsp">Cadastro de Contas</a></li>
               <li><a class="dropdown-item" href="cadastroDespesas.jsp">Cadastro de Despesas</a></li>
               <li><a class="dropdown-item" href="cadastroReceitas.jsp">Cadastro de Receitas</a></li>
+              <li><a class="dropdown-item" href="cadastroInvestimentos.jsp">Cadastro de Investimentos</a></li>
               <li><a class="dropdown-item" href="cadastroEnderecos.jsp">Cadastro de Enderecos</a></li>
+              <li><a class="dropdown-item" href="cadastroTelefones.jsp">Cadastro de Telefones</a></li>
             </ul>
           </li>
 
@@ -27,7 +29,9 @@
               <li><a class="dropdown-item" href="contas?acao=listar">Visualizar Contas</a></li>
               <li><a class="dropdown-item" href="despesas?acao=listar">Visualizar Despesas</a></li>
               <li><a class="dropdown-item" href="receitas?acao=listar">Visualizar Receitas</a></li>
+              <li><a class="dropdown-item" href="investimentos?acao=listar">Visualizar Investimentos</a></li>
               <li><a class="dropdown-item" href="enderecos?acao=listar">Visualizar Enderecos</a></li>
+              <li><a class="dropdown-item" href="telefones?acao=listar">Visualizar Telefones</a></li>
             </ul>
           </li>
         </c:if>

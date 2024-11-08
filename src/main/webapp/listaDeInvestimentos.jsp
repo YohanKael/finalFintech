@@ -15,10 +15,10 @@
 
     <div class="card mb-3">
       <div class="card-header">
-        LISTA DE RECEITAS
+        LISTA DE INVESTIMENTOS
       </div>
       <div class="card-body">
-        <h5 class="card-title">Gestão de receitas eficiente</h5>
+        <h5 class="card-title">Gestão de investimentos</h5>
         <p class="card-text">Mantenha os dados das suas contas sempre atualizados e protegidos.</p>
 
         <c:if test="${not empty mensagem}">
@@ -31,50 +31,58 @@
         <table class="table table-striped table-bordered">
           <thead>
           <tr>
-            <th>ID da receita</th>
-            <th class="text-end">Descrição da receita</th>
-            <th class="text-center">Data de criacao da receita</th>
-            <th class="text-center">Valor da receita</th>
+            <th>ID do Investimento</th>
+            <th class="text-end">Descrição investimento</th>
+            <th class="text-end">Valor investido</th>
+            <th class="text-center">Data do investimento</th>
+            <th class="text-center">Data de retirada do investimento</th>
           </tr>
           </thead>
           <tbody>
-          <c:forEach items="${receitas}" var="receita">
+          <c:forEach items="${investimentos}" var="investimento">
             <tr>
-              <td>${receita.idReceita}</td>
+              <td>${investimento.cd_investimentos}</td>
+              <td>${investimento.ds_investimentos}</td>
               <td class="text-start">
-                  ${receita.dsReceita}
+                R$<fmt:formatNumber
+                        value="${investimento.qt_valor_investimento}"/>
               </td>
               <td class="text-center">
                 <fmt:parseDate
-                        value="${receita.dtReceita}"
+                        value="${investimento.dt_investimentos}"
                         pattern="yyyy-mm-dd"
-                        var="dtReceita"/>
+                        var="dt_investimentos"/>
                 <fmt:formatDate
-                        value="${dtReceita}"
+                        value="${dt_investimentos}"
                         pattern="dd/mm/yyyy"
                 />
               </td>
-              <td class="text-start">
-                R$<fmt:formatNumber
-                        value="${receita.qtValorReceita}"/>
+              <td class="text-center">
+                <fmt:parseDate
+                        value="${investimento.dt_retirada_investimentos}"
+                        pattern="yyyy-mm-dd"
+                        var="dt_retirada_investimentos"/>
+                <fmt:formatDate
+                        value="${dt_retirada_investimentos}"
+                        pattern="dd/mm/yyyy"
+                />
               </td>
               <td class="text-center">
-                <c:url value="receitas" var="link">
+                <c:url value="investimentos" var="link">
                   <c:param name="acao" value="abrir-form-edicao"/>
-                  <c:param name="idReceita" value="${receita.idReceita}"/>
-                  <c:param name="dsReceita" value="${receita.dsReceita}"/>
-                  <c:param name="dtReceita" value="${receita.dtReceita}"/>
-                  <c:param name="qtValorReceita" value="${receita.qtValorReceita}"/>
+                  <c:param name="cd_investimentos" value="${investimento.cd_investimentos}"/>
+                  <c:param name="ds_investimentos" value="${investimento.ds_investimentos}"/>
+                  <c:param name="qt_valor_investimento" value="${investimento.qt_valor_investimento}"/>
+                  <c:param name="dt_investimentos" value="${investimento.dt_investimentos}"/>
+                  <c:param name="dt_retirada_investimentos" value="${investimento.dt_retirada_investimentos}"/>
                 </c:url>
-
                 <a href="${link}" class="btn btn-primary">Editar</a>
-
                 <button
                         type="button"
                         class="btn btn-danger"
                         data-bs-toggle="modal"
                         data-bs-target="#excluirModal"
-                        onclick="codigoExcluir.value = ${receita.idReceita}"
+                        onclick="codigoExcluir.value = ${investimento.cd_investimentos}"
                 >
                   Excluir
                 </button>
@@ -83,7 +91,7 @@
           </c:forEach>
           </tbody>
         </table>
-        <a href="cadastroReceitas.jsp" class="btn btn-primary">Adicionar Receita</a>
+        <a href="cadastroInvestimentos.jsp" class="btn btn-primary">Adicionar Investimento</a>
       </div>
     </div>
   </div>
@@ -110,12 +118,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <h4>Tem certeza que deseja excluir essa receita?</h4>
+        <h4>Tem certeza que deseja excluir esse investimento?</h4>
         <p><strong>Atenção!</strong> Esta ação é irreversível.</p>
       </div>
       <div class="modal-footer">
 
-        <form action="receitas" method="post">
+        <form action="investimentos" method="post">
           <input
                   type="hidden"
                   name="acao"

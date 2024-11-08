@@ -55,7 +55,7 @@
                                 />
                             </td>
                             <td class="text-start">
-                                <fmt:formatNumber
+                                R$<fmt:formatNumber
                                         value="${despesa.qtValorDespesa}"/>
                             </td>
                             <td class="text-center">
